@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  dataapidocker:
+    image: ${DOCKER_REGISTRY-}dataapidocker
+    build:
+      context: .
+      dockerfile: DataAPIDocker/Dockerfile
+    environment:
+      - DB_PW
+    depends_on:
+      - db
+    ports:
+      - "54321:80"
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "${DB_PW}"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1620:1433"
